@@ -1,15 +1,15 @@
 require('./helper');
 
-var renderHelper = require('./render-helper');
-
-var tests = renderHelper.getTests();
-
 describe('Mustache.render', function () {
   beforeEach(function () {
     Mustache.clearCache();
   });
 
-  tests.forEach(function (test) {
+  var i;
+  var tests = {{{.}}};
+
+  for (i = 0; i < tests.length; i++) {
+    var test = tests[i];
     var view = eval(test.view);
 
     it('knows how to render ' + test.name, function () {
@@ -22,6 +22,5 @@ describe('Mustache.render', function () {
 
       assert.equal(output, test.expect);
     });
-
-  });
+  }
 });

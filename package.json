@@ -32,12 +32,16 @@
   },
   "scripts": {
     "pretest": "jshint mustache.js",
-    "test": "mocha --reporter spec",
-    "test-render": "mocha  --reporter spec test/render-test"
+    "test": "mocha --reporter spec test/*-test.js",
+    "test-render": "mocha  --reporter spec test/render-test",
+    "pre-test-browser": "node test/create-browser-suite.js",
+    "test-browser": "npm run pre-test-browser && zuul -- test/context-test.js test/parse-test.js test/render-browser-test.js",
+    "test-browser-local": "npm run pre-test-browser && zuul --local 8080 -- test/context-test.js test/parse-test.js test/render-browser-test.js"
   },
   "devDependencies": {
     "jshint": "~2.4.4",
-    "mocha": "~2.1.0"
+    "mocha": "~2.1.0",
+    "zuul": "^2.1.1"
   },
   "spm": {
     "main": "mustache.js",
