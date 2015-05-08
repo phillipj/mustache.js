@@ -9,18 +9,22 @@ describe('Mustache.render', function () {
   var tests = {{{.}}};
 
   for (i = 0; i < tests.length; i++) {
-    var test = tests[i];
-    var view = eval(test.view);
 
-    it('knows how to render ' + test.name, function () {
-      var output;
-      if (test.partial) {
-        output = Mustache.render(test.template, view, { partial: test.partial });
-      } else {
-        output = Mustache.render(test.template, view);
-      }
+    (function indexClosure(test) {
+        var view = eval(test.view);
 
-      assert.equal(output, test.expect);
-    });
+        it('knows how to render ' + test.name, function () {
+
+          var output;
+          if (test.partial) {
+            output = Mustache.render(test.template, view, { partial: test.partial });
+          } else {
+            output = Mustache.render(test.template, view);
+          }
+
+          assert.equal(output, test.expect);
+        });
+    })(tests[i]);
+
   }
 });
