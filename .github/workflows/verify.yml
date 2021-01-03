@@ -52,6 +52,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - name: Prepare to build & package
+        run: |
+          npm ci
+          npm run prepublishOnly
       - name: Package, install and test
         run: |
           export ARCHIVE_FILENAME=$(npm pack | tail -n 1)
@@ -71,6 +75,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '>=13.2.0'
+      - name: Prepare to build & package
+        run: |
+          npm ci
+          npm run prepublishOnly
       - name: Package, install and test
         run: |
           export ARCHIVE_FILENAME=$(npm pack | tail -n 1)
