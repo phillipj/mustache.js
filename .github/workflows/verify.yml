@@ -3,6 +3,20 @@ name: Verify changes
 on: [push, pull_request]
 
 jobs:
+  linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        run: npm ci
+      - name: Run linting
+        run: npm run test-lint
+
   tests:
     runs-on: ubuntu-latest
 
@@ -18,10 +32,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and test
+      - name: Install dependencies and convert ESM
         run: |
           npm install
-          npm test
+          npm run prepublishOnly
+      - name: Run tests
+        run: npm run test-unit
 
   tests-on-legacy:
     runs-on: ubuntu-latest
@@ -38,7 +54,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and test
+      - name: Install dependencies and convert ESM
+        run: |
+          npm install
+          npm run prepublishOnly
+      - name: Run tests
         run: |
           npm install mocha@3 chai@3
           npm run test-unit
