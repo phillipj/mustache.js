@@ -39,30 +39,6 @@ jobs:
       - name: Run tests
         run: npm run test-unit
 
-  tests-on-legacy:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [0.10.x, 0.12.x, 4.x, 6.x]
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies and convert ESM
-        run: |
-          npm install
-          npm run prepublishOnly
-      - name: Run tests
-        run: |
-          npm install mocha@3 chai@3
-          npm run test-unit
-
   common-js-usage:
     runs-on: ubuntu-latest
 
