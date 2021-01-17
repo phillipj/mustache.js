@@ -94,10 +94,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: Install and test
+      - name: Install dependencies and convert ESM
         run: |
-          npm ci
-          npx mocha test/module-systems/browser-test.js
+          npm install
+          npm run prepublishOnly
+      - name: Run tests
+        run: npx mocha test/module-systems/browser-test.js
 
   deno-usage:
     runs-on: ubuntu-latest
